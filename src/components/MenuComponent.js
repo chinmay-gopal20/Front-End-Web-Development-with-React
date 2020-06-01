@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardImgOverlay, CardTitle, CardBody, CardText, CardLink} from 'reactstrap';
+import { Card, CardImg, CardImgOverlay, CardTitle, CardBody, CardText, CardLink, CardHeader, CardFooter} from 'reactstrap';
 
 class Menu extends Component{
     constructor(props){
@@ -16,15 +16,32 @@ class Menu extends Component{
     }
 
     renderSelectedDish(dish){
+        console.log(dish)
         if(dish){
             return (
-                <Card>
-                    <CardImg src={dish.image} alt={dish.name}/>
-                        <CardBody>
-                            <CardTitle>{dish.name}</CardTitle>
-                            <CardText>{dish.description}</CardText>
-                        </CardBody>
-                </Card>
+                <div  className="col-12 col-md-5 m-1">
+                    <Card>
+                        <CardHeader>Dish</CardHeader>
+                        <CardImg src={dish.image} alt={dish.name}/>
+                            <CardBody>
+                                <CardTitle>{dish.name}</CardTitle>
+                                <CardText>{dish.description}</CardText>
+                                <blockquote>
+                                    <cite>
+                                        <CardText>{dish.comments[0].comment}</CardText>
+                                    </cite>
+                                    <footer className="blockquote-footer">
+                                        {dish.comments[0].author}
+                                    </footer>
+                                </blockquote>
+                            </CardBody>
+                    </Card>
+                </div>
+            );
+        }
+        else{
+            return(
+                <div></div>
             );
         }
     }
@@ -51,8 +68,6 @@ class Menu extends Component{
              <div className="container">
                 <div className="row">
                     {menu}
-                </div>
-                <div className="col-12 col-md-5 m-1">
                     {this.renderSelectedDish(this.state.selectedDish)}
                 </div>
             </div>
