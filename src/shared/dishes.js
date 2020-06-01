@@ -13,7 +13,7 @@ export const DISHES =
             id: 0,
             rating: 5,
             comment: "Imagine all the eatables, living in conFusion!",
-            author: "John Lemon",
+            author: "John  uthappizza Lemon",
             date: "2012-10-16T17:57:28.556094Z"
             },
             {
@@ -58,7 +58,7 @@ export const DISHES =
             id: 0,
             rating: 5,
             comment: "Imagine all the eatables, living in conFusion!",
-            author: "John Lemon",
+            author: "John Zucchipakoda Lemon",
             date: "2012-10-16T17:57:28.556094Z"
             },
             {
@@ -104,7 +104,7 @@ export const DISHES =
             id: 0,
             rating: 5,
             comment: "Imagine all the eatables, living in conFusion!",
-            author: "John Lemon",
+            author: "John Vadonut Lemon",
             date: "2012-10-16T17:57:28.556094Z"
             },
             {
@@ -150,7 +150,7 @@ export const DISHES =
             id: 0,
             rating: 5,
             comment: "Imagine all the eatables, living in conFusion!",
-            author: "John Lemon",
+            author: "John ElaiCheese Cake Lemon",
             date: "2012-10-16T17:57:28.556094Z"
             },
             {
