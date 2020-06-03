@@ -1,21 +1,7 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardImgOverlay, CardTitle, CardBody, CardText, CardLink, CardHeader, CardFooter} from 'reactstrap';
-
-import DishDetail from './DishDetailComponent'
+import { Card, CardImg, CardTitle, CardBody, CardText, CardLink, CardHeader} from 'reactstrap';
 
 class Menu extends Component{
-    constructor(props){
-        super(props);
-
-        //state usually holds the property values that belongs to the component, change in state obj re-renders the component
-        this.state = {
-            selectedDish: null
-        };
-    }
-
-    onDishSelect(dish){
-        this.setState({selectedDish: dish});
-    }
 
     renderSelectedDish(dish){
         if(dish){
@@ -52,8 +38,8 @@ class Menu extends Component{
     render(){
         const menu = this.props.dishes.map((dish) => {
             return(
-                <div className="col-12 col-md-5 m-1"> 
-                    <Card key={dish.id} onClick={() => this.onDishSelect(dish)}>
+                <div key={dish.id} className="col-12 col-md-5 m-1"> 
+                    <Card onClick={() => this.props.onClick(dish.id)}>
                         <CardImg width="100%" src={dish.image} alt={dish.name}/>
                         <CardTitle>
                             <CardLink href="#" target="_blank">{dish.name}</CardLink>
@@ -64,13 +50,10 @@ class Menu extends Component{
         });
         
         return(
-             <div className="container">
+            <div className="container">
                 <div className="row">
                     {menu}
-                    {/* {this.renderSelectedDish(this.state.selectedDish)} */}
-                    {/* <DishDetail dish={this.state.selectedDish}/> */}
                 </div>
-                <DishDetail dish={this.state.selectedDish}/>
             </div>
         );
     }
