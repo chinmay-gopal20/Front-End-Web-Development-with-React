@@ -4,8 +4,10 @@ import Home from './HomeComponent';
 
 import Header from './HeaderComponent';
 import Menu from './MenuComponent';
+import DishDetail from './DishDetailComponent';
 import Footer from './FooterComponenet';
 import Contact from './ContactComponent';
+import About from './AboutComponent';
 
 import {DISHES} from '../shared/dishes';
 import {COMMENTS} from '../shared/comments';
@@ -46,13 +48,27 @@ class Main extends Component {
         return <Menu dishes={this.state.dishes} />
       }
 
+      const DishPage = ({match}) => {
+        return (
+          <DishDetail dish={this.state.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
+            comments={this.state.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
+          />
+        )
+      }
+
+      const AboutUsPage= () => {
+        return <About leaders={this.state.leaders}/>
+      }
+
       return (
         <div>
           <Header/>
           <Switch>
             <Route path="/home" component={HomePage}/>
-            <Route path="/menu" component={MenuPage}/>
-            <Route path="/contactus" component={Contact} />
+            <Route exact path="/menu" component={MenuPage}/>
+            <Route path="/menu/:dishId" component={DishPage}/>
+            <Route path="/contactus" component={ContactUsPage}/>
+            <Route path="/aboutus" component={AboutUsPage}/>
             <Redirect to="/home" />
           </Switch>
           <Footer/>
