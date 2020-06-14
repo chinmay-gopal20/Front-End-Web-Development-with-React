@@ -66,7 +66,7 @@ class  Contact extends Component{
             
         }
 
-        if(this.state.touched.email && email.split('@').length == 1){
+        if(this.state.touched.email && email.split('@').length === 1){
             errors.email = 'Email should contain @'
         }
 
@@ -91,7 +91,6 @@ class  Contact extends Component{
         console.log("Current state is : " + JSON.stringify(this.state));
         alert("Current state is : " + JSON.stringify(this.state));
         event.preventDefault();
-
     }
 
     render(){
@@ -207,7 +206,7 @@ class  Contact extends Component{
                                 <Col md={{size: 3, offset: 1}}>
                                     <Input type="select" name="contactType"
                                             value={this.state.contactType}
-                                            onChange={this.handleInputChange} onChange={this.handleInputChange}>
+                                            onChange={this.handleInputChange}>
                                         <option>Tel.</option>
                                         <option>Email</option>
                                     </Input>
