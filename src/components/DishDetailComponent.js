@@ -23,8 +23,8 @@ class CommentForm extends Component{
     }
 
     handleSubmit(values){
-        console.log("Current state is : " + JSON.stringify(values));
-        alert("Current state is : " + JSON.stringify(values));
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.name, values.comment);
     }
 
     toggleModal(){
@@ -111,7 +111,7 @@ class CommentForm extends Component{
     }
 }
 
-function RenderDishComments({ dishComments }){
+function RenderDishComments({ dishComments, addComment, dishId }){
     const comments = dishComments.map((comment_element) => {
         return(
             <div key={comment_element.id} className="comment-element">
@@ -137,7 +137,7 @@ function RenderDishComments({ dishComments }){
                         </h4>
                     </div>
                     {comments}
-                    <CommentForm />
+                    <CommentForm dishId={dishId} addComment={addComment}/>
                 </div>
             </Card>
         );
@@ -161,7 +161,7 @@ function RenderDishDetails({ dish }){
     );
 }
 
-function RenderDish({dish, comments}){
+function RenderDish({dish, comments, addComment, dishId}){
     if(dish){
         return(
             <div className="row">
@@ -169,7 +169,7 @@ function RenderDish({dish, comments}){
                     <RenderDishDetails dish={dish}/>
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    <RenderDishComments dishComments={comments}/>
+                    <RenderDishComments dishComments={comments} addComment={addComment} dishId={dishId}/>
                 </div>
             </div>
         );
@@ -198,7 +198,8 @@ const DishDetail = (props) => {
                     <hr />
                 </div>  
                  <div className="row">
-                    <RenderDish  dish={dish} comments={comments}/>
+                    <RenderDish  dish={dish} comments={comments} addComment={props.addComment}
+                        dishId={props.dish.id}/>
                  </div>
             </div>
         );
