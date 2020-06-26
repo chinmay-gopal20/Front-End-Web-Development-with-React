@@ -3,6 +3,7 @@ import { Card, CardImg, CardTitle, CardLink, CardText, Breadcrumb, BreadcrumbIte
             ModalHeader, ModalBody, Label, Col, Row } from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {Control, LocalForm, Errors} from 'react-redux-form';
+import {Loading} from './LoadingComponent';
 // import CommentForm from './CommentFormComponent';
 
 
@@ -161,27 +162,43 @@ function RenderDishDetails({ dish }){
     );
 }
 
-function RenderDish({dish, comments, addComment, dishId}){
-    if(dish){
+function RenderDish({dish, comments, addComment, dishId, isLoading, errMsg}){
         return(
             <div className="row">
                 <div className="col-12 col-md-5 m-1">    
                     <RenderDishDetails dish={dish}/>
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    <RenderDishComments dishComments={comments} addComment={addComment} dishId={dishId}/>
+                    <RenderDishComments 
+                        dishComments={comments} 
+                        addComment={addComment} 
+                        dishId={dishId}
+                    />
                 </div>
             </div>
         );
-    }
-    return(
-        <div></div>
-    );
 }
 
 const DishDetail = (props) => {
-    const dish = props.dish;
-    const comments = props.comments;
+    if(props.isLoading){
+        return(
+            <div className='container'>
+                <div className='row'>
+                    <Loading/>
+                </div>
+            </div>
+        )
+    }else if(props.errMsg){
+        return(
+            <div className='container'>
+                <div className='row'>
+                    <h4>{props.errMsg}</h4>
+                </div>
+            </div>
+        )
+    }else if(props.dish!=null){
+        const dish = props.dish;
+        const comments = props.comments;
         return (
             <div className="container">
                 <div className="row">
@@ -198,11 +215,21 @@ const DishDetail = (props) => {
                     <hr />
                 </div>  
                  <div className="row">
-                    <RenderDish  dish={dish} comments={comments} addComment={props.addComment}
-                        dishId={props.dish.id}/>
+                    <RenderDish  dish={dish} 
+                                 comments={comments} 
+                                 addComment={props.addComment}
+                                 dishId={dish.id} 
+                                 isLoading={props.isLoading} 
+                                 errMsg={props.errMsg}
+                    />
                  </div>
             </div>
         );
+    }else{
+        return(
+            <div></div>
+        );
+    }
 }
 
 export default DishDetail; 
