@@ -4,6 +4,7 @@ import { Card, CardImg, CardTitle, CardLink, CardText, Breadcrumb, BreadcrumbIte
 import {Link} from 'react-router-dom';
 import {Control, LocalForm, Errors} from 'react-redux-form';
 import {Loading} from './LoadingComponent';
+import { baseUrl } from "../shared/baseUrl";
 // import CommentForm from './CommentFormComponent';
 
 
@@ -151,7 +152,7 @@ function RenderDishComments({ dishComments, addComment, dishId }){
 function RenderDishDetails({ dish }){
     return(
         <Card className="dish-detail" key={dish.id}>
-            <CardImg src={dish.image} alt={dish.name}/>
+            <CardImg src={baseUrl + dish.image} alt={dish.name}/>
             <CardTitle className="dish-name">
                 <CardLink href="#" target="_blank">{dish.name}</CardLink>
             </CardTitle>
