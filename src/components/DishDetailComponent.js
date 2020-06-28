@@ -26,7 +26,7 @@ class CommentForm extends Component{
 
     handleSubmit(values){
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.name, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.name, values.comment);
     }
 
     toggleModal(){
@@ -113,7 +113,7 @@ class CommentForm extends Component{
     }
 }
 
-function RenderDishComments({ dishComments, addComment, dishId }){
+function RenderDishComments({ dishComments, postComment, dishId }){
     const comments = dishComments.map((comment_element) => {
         return(
             <div key={comment_element.id} className="comment-element">
@@ -139,7 +139,7 @@ function RenderDishComments({ dishComments, addComment, dishId }){
                         </h4>
                     </div>
                     {comments}
-                    <CommentForm dishId={dishId} addComment={addComment}/>
+                    <CommentForm dishId={dishId} postComment={postComment}/>
                 </div>
             </Card>
         );
@@ -163,7 +163,7 @@ function RenderDishDetails({ dish }){
     );
 }
 
-function RenderDish({dish, comments, addComment, dishId, isLoading, errMsg}){
+function RenderDish({dish, comments, postComment, dishId, isLoading, errMsg}){
         return(
             <div className="row">
                 <div className="col-12 col-md-5 m-1">    
@@ -172,7 +172,7 @@ function RenderDish({dish, comments, addComment, dishId, isLoading, errMsg}){
                 <div className="col-12 col-md-5 m-1">
                     <RenderDishComments 
                         dishComments={comments} 
-                        addComment={addComment} 
+                        postComment={postComment} 
                         dishId={dishId}
                     />
                 </div>
@@ -218,7 +218,7 @@ const DishDetail = (props) => {
                  <div className="row">
                     <RenderDish  dish={dish} 
                                  comments={comments} 
-                                 addComment={props.addComment}
+                                 postComment={props.postComment}
                                  dishId={dish.id} 
                                  isLoading={props.isLoading} 
                                  errMsg={props.errMsg}
