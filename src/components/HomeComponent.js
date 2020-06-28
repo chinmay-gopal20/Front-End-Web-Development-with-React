@@ -9,10 +9,9 @@ function RenderCard({item, isLoading, errMsg}){
             <Loading/>
         )
     }else if(errMsg){
+        console.log(errMsg)
         return(
-            <h4>
-                errMsg
-             </h4>
+            <h4>{errMsg}</h4>
         )
     }else{
         return (
