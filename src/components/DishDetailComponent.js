@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {Control, LocalForm, Errors} from 'react-redux-form';
 import {Loading} from './LoadingComponent';
 import { baseUrl } from "../shared/baseUrl";
-// import CommentForm from './CommentFormComponent';
+import { FadeTransform, Fade, Stagger } from "react-animation-components";
 
 
 const required = (val) => val && val.length;
@@ -116,17 +116,21 @@ class CommentForm extends Component{
 function RenderDishComments({ dishComments, postComment, dishId }){
     const comments = dishComments.map((comment_element) => {
         return(
-            <div key={comment_element.id} className="comment-element">
-                <div className="comment">
-                    <p>{comment_element.comment}</p>
-                </div>
-                <div className="author">
-                    <p>--   {comment_element.author}, 
-                            {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'})
-                                                            .format(new Date(Date.parse(comment_element.date)))}
-                    </p>
-                </div>
-            </div>
+            <Stagger in>
+                <Fade in>
+                    <div key={comment_element.id} className="comment-element">
+                        <div className="comment">
+                            <p>{comment_element.comment}</p>
+                        </div>
+                        <div className="author">
+                            <p>--   {comment_element.author}, 
+                                    {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'})
+                                                                    .format(new Date(Date.parse(comment_element.date)))}
+                            </p>
+                        </div>
+                    </div>
+                </Fade>
+            </Stagger>
         );
     })
     if(dishComments){
@@ -151,15 +155,21 @@ function RenderDishComments({ dishComments, postComment, dishId }){
 
 function RenderDishDetails({ dish }){
     return(
-        <Card className="dish-detail" key={dish.id}>
-            <CardImg src={baseUrl + dish.image} alt={dish.name}/>
-            <CardTitle className="dish-name">
-                <CardLink href="#" target="_blank">{dish.name}</CardLink>
-            </CardTitle>
-            <CardText className="dish-description">
-                {dish.description}
-            </CardText>
-        </Card>
+        <FadeTransform in 
+                    transformProps={{
+                        exitTransform: 'scale(0.5) translateY(-50%)'
+                    }}
+        >
+            <Card className="dish-detail" key={dish.id}>
+                <CardImg src={baseUrl + dish.image} alt={dish.name}/>
+                <CardTitle className="dish-name">
+                    <CardLink href="#" target="_blank">{dish.name}</CardLink>
+                </CardTitle>
+                <CardText className="dish-description">
+                    {dish.description}
+                </CardText>
+            </Card>
+        </FadeTransform>
     );
 }
 
