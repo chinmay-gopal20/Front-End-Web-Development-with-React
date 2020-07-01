@@ -1,35 +1,52 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { FadeTransform, Fade, Stagger } from "react-animation-components";
 
+import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
-function RenderLeaders({leaders}){
-    const leader_elt = leaders.map((leader) => {
-        return (
-            <Media tag="li">
-                <Media left>
-                    <Media object src={leader.image} ></Media>
-                </Media>
-                <Media body className="col-12 ml-2">
-                    <Media heading>
-                        {leader.name}
-                    </Media>
-                    <section>
-                        {leader.designation}
-                    </section>
-                        <br/>
-                    <section>
-                        {leader.description}
-                    </section>
-                </Media>
-            </Media>
+function RenderLeaders({leaders, isLoading, errMsg}){
+    if(isLoading){
+        return(
+            <Loading />
         )
-    })
-    return (
-        <React.Fragment>
-            {leader_elt}
-        </React.Fragment>
-    )
+    }else if(errMsg != null){
+        return (
+            <h4>{errMsg}</h4>
+        )
+    }else{
+        const leader_elt = leaders.map((leader) => {
+            return (
+                <Fade in>
+                    <Media tag="li">
+                        <Media left>
+                            <Media object src={baseUrl + leader.image} ></Media>
+                        </Media>
+                        <Media body className="col-12 ml-2">
+                            <Media heading>
+                                {leader.name}
+                            </Media>
+                            <section>
+                                {leader.designation}
+                            </section>
+                                <br/>
+                            <section>
+                                {leader.description}
+                            </section>
+                        </Media>
+                    </Media>
+                </Fade>
+            )
+        })
+        return (
+            <Stagger in>
+                <React.Fragment>
+                    {leader_elt}
+                </React.Fragment>
+            </Stagger>
+        )
+    }
 }
 
 function About(props) {
@@ -92,7 +109,10 @@ function About(props) {
                     <div className="container">
                         <div className="row">
                             <Media list>
-                                <RenderLeaders leaders={props.leaders}/>
+                                <RenderLeaders leaders={props.leaders}
+                                    isLoading={props.leadersLoading}
+                                    errMsg={props.leadersErrMsg}
+                                />
                             </Media>
                         </div>
                     </div>

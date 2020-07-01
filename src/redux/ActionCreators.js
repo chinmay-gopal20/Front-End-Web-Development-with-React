@@ -1,5 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from "../shared/baseUrl";
+import { Leaders } from './leaders';
 
 export const addComment = (comment) => ({
     type: ActionTypes.ADD_COMMENT,
@@ -24,7 +25,6 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
             credentials: 'same-origin'
         })  
         .then(response => {
-            console.log("response - ", response)
             if (response.ok) {
               return response;
             } else {
@@ -40,6 +40,44 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
         .catch(error =>  { 
             console.log('post comments', error.message); 
             alert('Your comment could not be posted\nError: '+error.message); 
+        });
+}
+
+export const addFeedback = (feedback) => ({
+    type: ActionTypes.ADD_FEEDBACK,
+    payload: feedback
+})
+
+export const postFeedback = (feedback) => (dispatch) => {
+
+    return fetch(baseUrl + 'feedback', {
+            method: 'POST',
+            body: JSON.stringify(feedback),
+            headers:  {
+                "Content-Type": "application/json"
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if(response.ok){
+                return response;
+            }else{
+                var error = new Error('Error ' + response.status + ' : ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        }, error => {
+            throw error
+        })
+        .then(response => response.json())
+        .then(feedback => {
+            alert('Thanks for your feedback!\n' + JSON.stringify(feedback))
+            return feedback
+        })
+        .then(feedback => dispatch(addFeedback(feedback)))
+        .catch(error =>  { 
+            console.log('post feedback', error.message); 
+            alert('Your feedback could not be posted\nError: '+error.message); 
         });
 }
 
@@ -141,4 +179,39 @@ export const commentsFailed = (err) => ({
 export const addComments = (comments) => ({
     type: ActionTypes.ADD_COMMENTS,
     payload: comments
+})
+
+export const fetchLeaders = () => (dispatch) => {
+    dispatch(leadersLoading(true));
+
+    return fetch(baseUrl + 'leaders')
+        .then(response => {
+            if(response.ok){
+                return response
+            }else{
+                var error = new Error('Error ' + response.status + ' : ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        }, error => {
+            var error = new Error(error.message);
+            throw error;
+        })
+        .then(response => response.json())
+        .then(leaders => dispatch(addLeaders(leaders)))
+        .catch(error => dispatch(leadersFailed(error.message)));
+}
+
+export const leadersLoading = () => ({
+    type: ActionTypes.LEADERS_LOADING
+})
+
+export const leadersFailed = (err) => ({
+    type: ActionTypes.LEADERS_FAILED,
+    payload: err
+})
+
+export const addLeaders = (leaders) => ({
+    type: ActionTypes.ADD_LEADERS,
+    payload: leaders
 })

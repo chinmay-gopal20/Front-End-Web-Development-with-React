@@ -19,13 +19,25 @@ class  Contact extends Component{
         
     }
 
+    getFeedback(values){
+        return ({
+            firstname: values.firstname,
+            lastname: values.lastname,
+            telnum: values.telnum,
+            email: values.email,
+            agree: values.agree,
+            contactType: values.contactType,
+            message: values.textarea,
+            date: new Date().toISOString()
+        });
+    }
+
     handleSubmit(values){
-        alert("Current state is : " + JSON.stringify(values));
+        this.props.postFeedback(this.getFeedback(values))
         this.props.resetFeedBackForm()
     }
 
     render(){
-        // const errors = this.validate(this.state.firstname, this.state.lastname, this.state.telnum, this.state.email, this.state.agree)
         return(
             <div className="container">
                 <div className="row">
